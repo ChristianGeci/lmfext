@@ -38,7 +38,7 @@ def read_params(filepath):
     parameters_dict = df.to_dict()
 
     names = list(parameters_dict['Parameter'].values())
-
+    hit_exception = False
     for index, name in enumerate(names):
         value = parameters_dict['value'][index]
         min = parameters_dict['min'][index]
@@ -54,6 +54,14 @@ def read_params(filepath):
                               vary = vary,
                               expr = expr,
                              )
-        parameters.add(param)
+        try:
+            parameters.add(param)
+        except Exception as e:
+            print(f"failed to add parameter {name}: {e}")
+            hit_exception = True
+            continue
+
+    if hit_exception:
+        raise(Exception("Hit one or more errors, see above"))
 
     return parameters
