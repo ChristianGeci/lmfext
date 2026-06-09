@@ -34,12 +34,11 @@ def make_params_file(model, filepath, prevent_overwriting = True, **kwargs):
 
 def read_params(filepath):
     parameters = lmf.Parameters()
-    df = pd.read_csv(filepath, sep='\t')
+    df = pd.read_csv(filepath, sep='\t').dropna(how="all")
     parameters_dict = df.to_dict()
 
-    names = list(parameters_dict['Parameter'].values())
     hit_exception = False
-    for index, name in enumerate(names):
+    for index, name in parameters_dict['Parameter'].items():
         value = parameters_dict['value'][index]
         min = parameters_dict['min'][index]
         max = parameters_dict['max'][index]
