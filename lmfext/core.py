@@ -26,7 +26,6 @@ def write_params(params, filepath):
 
 def make_params_file(model, filepath, prevent_overwriting = True, **kwargs):
     if Path(filepath).exists() and prevent_overwriting:
-        print(f"file at {filepath} already exists")
         return
     params = model.make_params(**kwargs)
     write_params(params, filepath)
